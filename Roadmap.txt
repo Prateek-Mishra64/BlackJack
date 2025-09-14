@@ -1,0 +1,226 @@
+2-Month Roadmap for Blackjack Game
+    Week 1 – Project Setup & Core Game Logic
+
+        Goals: Get the skeleton of the game running with rule-based AI.
+
+        Create project folder and virtual environment (Ext_Pyt)
+
+        Install libraries: arcade, numpy, and others you’ll need later
+
+        Set up Neovim workflow and test Arcade installation
+
+        Implement core Blackjack rules engine: dealing cards, player actions, hand scoring
+
+        Make simple text-based or placeholder graphics to test mechanics
+
+Deliverable: Playable console or placeholder GUI version of Blackjack
+
+    Week 2 – Basic Arcade Game Loop
+
+        Goals: Transition from text-based to graphical interface
+
+        Set up Arcade window and main game loop
+
+        Load placeholder card images (colored rectangles or numbers)
+        
+        Implement player interaction: mouse clicks or keyboard for hit/stand
+
+        Implement dealer AI (simple rule-based)
+    
+Deliverable: Basic playable Blackjack with graphical window, placeholder cards
+
+    Week 3 – Pixel Art & Card Sprites
+
+        Goals: Start creating the visual identity
+
+       Design pixel art cards (one full deck or minimal for testing)
+
+       Create simple animations (card flipping, dealing)
+
+       Export cards as PNGs and integrate into Arcade
+
+       Test sprite rendering and animations
+    
+Deliverable: Visually improved game with custom card sprites and basic animations
+
+2-Month Roadmap for Blackjack Game
+Week 1 – Project Setup & Core Game Logic
+
+Goals: Get the skeleton of the game running with rule-based AI.
+
+    Create project folder and virtual environment (Ext_Pyt)
+
+    Install libraries: arcade, numpy, and others you’ll need later
+
+    Set up Neovim workflow and test Arcade installation
+
+    Implement core Blackjack rules engine: dealing cards, player actions, hand scoring
+
+    Make simple text-based or placeholder graphics to test mechanics
+
+Deliverable: Playable console or placeholder GUI version of Blackjack
+Week 2 – Basic Arcade Game Loop
+
+Goals: Transition from text-based to graphical interface
+
+    Set up Arcade window and main game loop
+
+    Load placeholder card images (colored rectangles or numbers)
+
+    Implement player interaction: mouse clicks or keyboard for hit/stand
+
+    Implement dealer AI (simple rule-based)
+
+Deliverable: Basic playable Blackjack with graphical window, placeholder cards
+Week 3 – Pixel Art & Card Sprites
+
+Goals: Start creating the visual identity
+
+    Design pixel art cards (one full deck or minimal for testing)
+
+    Create simple animations (card flipping, dealing)
+
+    Export cards as PNGs and integrate into Arcade
+
+    Test sprite rendering and animations
+
+Deliverable: Visually improved game with custom card sprites and basic animations
+     Week 4  User Interface & Menus
+
+Goals: Add polish to menus and UX
+
+    Create start screen, difficulty selection, and game over screen
+
+    Implement buttons for actions (hit, stand, restart)
+
+    Add score display, round info, and simple feedback messages
+
+    Integrate sound effects (deal card, win/lose)
+
+Deliverable: Polished UI with menus, buttons, and sound
+Week 5 – Rule-Based AI Enhancement
+
+Goals: Make the AI smarter and prepare for ML integration
+
+    Improve dealer AI logic
+
+    Implement basic strategy AI for medium difficulty
+
+    Test different difficulty modes (easy = random, medium = basic strategy)
+
+    Ensure AI decisions integrate smoothly with Arcade loop
+
+Deliverable: Playable game with multiple difficulty levels using rule-based AI
+Week 6 – Machine Learning Preparation
+
+Goals: Prepare ML component and datasets
+
+    Learn or review basic ML concepts relevant for Blackjack
+
+    Create game logs / datasets for training (player actions, outcomes)
+
+    Implement Python scripts to generate training data
+
+    Decide on ML framework: scikit-learn (simpler) or PyTorch (RL agent)
+
+Deliverable: Dataset ready for ML training, clear plan for integrating AI
+Week 7 – ML Integration
+
+Goals: Add ML-based AI as advanced difficulty
+
+    Train a simple ML model (e.g., supervised or reinforcement learning)
+
+    Integrate trained model into the game loop
+
+    Test ML AI against rule-based AI and human player
+
+    Refine ML AI decisions to avoid bugs or illogical plays
+
+Deliverable: Game with advanced ML difficulty mode
+Week 8 – Polishing & Distribution
+
+Goals: Finalize and package the game
+
+    Polish animations, sound, and UI transitions
+
+    Test full game on multiple machines / OS (Windows, Linux)
+
+    Package using PyInstaller (.exe or Linux binary)
+
+    Prepare assets folder, README, and instructions
+
+    Playtest and fix bugs
+
+Deliverable: Fully packaged, polished Blackjack game ready to distribute
+   Week 4 – User Interface & Menus
+
+        Goals: Add polish to menus and UX
+
+        Create start screen, difficulty selection, and game over screen
+
+        Implement buttons for actions (hit, stand, restart)
+    
+        Add score display, round info, and simple feedback messages
+
+        Integrate sound effects (deal card, win/lose)
+
+Deliverable: Polished UI with menus, buttons, and sound
+
+    Week 5 – Rule-Based AI Enhancement
+
+        Goals: Make the AI smarter and prepare for ML integration
+
+        Improve dealer AI logic
+
+        Implement basic strategy AI for medium difficulty
+
+        Test different difficulty modes (easy = random, medium = basic strategy)
+
+        Ensure AI decisions integrate smoothly with Arcade loop
+
+Deliverable: Playable game with multiple difficulty levels using rule-based AI
+
+    Week 6 – Machine Learning Preparation
+
+        Goals: Prepare ML component and datasets
+
+        Learn or review basic ML concepts relevant for Blackjack
+
+        Create game logs / datasets for training (player actions, outcomes)
+
+        Implement Python scripts to generate training data
+
+        Decide on ML framework: scikit-learn (simpler) or PyTorch (RL agent)
+
+Deliverable: Dataset ready for ML training, clear plan for integrating AI
+
+    Week 7 – ML Integration
+
+        Goals: Add ML-based AI as advanced difficulty
+
+        Train a simple ML model (e.g., supervised or reinforcement learning)
+
+        Integrate trained model into the game loop
+
+        Test ML AI against rule-based AI and human player
+
+        Refine ML AI decisions to avoid bugs or illogical plays
+
+Deliverable: Game with advanced ML difficulty mode
+
+    Week 8 – Polishing & Distribution
+
+        Goals: Finalize and package the game
+
+        Polish animations, sound, and UI transitions
+
+        Test full game on multiple machines / OS (Windows, Linux)
+
+        Package using PyInstaller (.exe or Linux binary)
+
+        Prepare assets folder, README, and instructions
+
+        Playtest and fix bugs
+
+Deliverable: Fully packaged, polished Blackjack game ready to distribute
+

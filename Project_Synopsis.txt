@@ -1,0 +1,83 @@
+                                              BlackJack Game in Python
+
+
+Introduction:
+    
+    -This project is a BlackJack game made entirely in Python using the newer Arcade Library to make the   
+       skeleton of the game and using handmade Pixel art for GUI and use of Machine learning to adjust 
+         the difficulty of the game.
+
+    -Blackjack is a very famous card game played by one player against the dealer or house. The goal of the game is the get a total of 21 or get
+      as close to 21 as possible without going overboard or by getting the sum of the cards in your hands being higher than the sum of cards 
+        in the dealer's hand. The rules of the game are fairly simple and the game itself is plenty fun.
+          Blackjack is a game that depends on luck to win.
+
+    -The reason to make this project was to due to simplicity of rules, interesting logics, play of probability and to strengthen the core 
+      understanding of concepts like custom data structures, user defined functions, nested functions, loops, arrays dictionaries, Machine learning,
+        and how to work with new libraries and making and animating Pixel art.
+
+
+Objectives:
+
+    -To design and implement a fully functional Blackjack game.
+
+    -To apply programming concepts such as loops, conditionals, and data structures, user defined functions.
+
+    -To provide an interactive Graphic user interface .
+
+    -To enhance understanding of game logic and probability-based systems and machine learning.
+
+
+Software and Hardware Requirement:
+    -Software: Python 3.x, Text editor (Neovim), Wine(Linux based systems).
+
+    -Libraries: Arcade, Random, Python standard Library.
+
+    -Hardware: Any device with 4 gb ram and a gen 8 cpu that is running any OS.
+
+
+
+System Design:
+    -On starting the game the user is presented choice to either start the game, see the rules and mechanics or to see the contact details of 
+      development team.
+
+    -The player is given a choice of either hit meaning compare the cards on his hand with the dealer's to decide for the winner, stay to given
+      the dealer his turn to choose or to draw meaning drawing a card from the deck to add to his hand.
+
+    -The dealer has 3 moves it either hit, stay, or draw like the player. The dealer always hit when the sum of cards in his hands are less than
+      or equal to 16, else he will stay or draw.
+
+    -The difficulty of the game can be selected on the screen after selecting play and the difficulty is set using Machine Learning models.
+
+
+Features:
+    -Dealer vs user mode with the usage of Machine Learning for different difficulty modes. 
+    -The shuffling of cards are randomized for each draw in every game.
+    -The conditions for winning or losing are well written to ensure smooth and fleshed out gameplay.
+    -Hand drawn pixel art and animations for the Graphics.
+
+
+Limitations & Future Scope:
+
+    -Currently single-player only.
+
+    -Limited to basic rules (no betting, splitting, doubling down).
+
+
+Conclusion:
+
+    -A BlackJack game written entirely in Python with the Implementation of Machine Learning.
+
+    -This project helps in learning and strengthening the core concepts of Python, poblem solving, logic building, Machine Learning.
+
+
+Team Members:
+
+  -Prateek
+    04917702024
+      BCA-3A
+
+
+  -Himesh
+    00917702024
+      BCA-3A

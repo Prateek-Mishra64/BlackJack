@@ -1,0 +1,9 @@
+BlackJack Ideas:
+
+    -Use the on_update() function for anything that is moving.
+    -Multiple with delta_time to have the movement smother as it matches the refresh rate.
+    -REMEMBER TO USE THE TEXT OBJECT INSTEAD CAUSE ITS FASTER NIGGA!!!
+
+    -For background have multiple sprites moving it can be done so :
+        --Have cards sprite moving diagonally upwards in left adn right from their original position and then comming back to their
+            original position making a sort of brething animation.
