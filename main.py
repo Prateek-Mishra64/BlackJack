@@ -1,5 +1,5 @@
 import arcade
-from arcade.gui import UIFlatButton, UIManager, UIMessageBox
+from arcade.gui import UIFlatButton, UILabel, UIManager, UIMessageBox
 
 
 class Mywindow(arcade.Window):
@@ -10,14 +10,28 @@ class Mywindow(arcade.Window):
         self.ui_manager = UIManager()
         self.ui_manager.enable()
 
+        self.label = UILabel(
+            x=50,
+            y=800,
+            text="BlackJack: The Game that made Satan Cry!!!",
+            font_size=40,
+            text_color=arcade.color.ORANGE,
+        )
+
+        self.ui_manager.add(self.label)
+
         self.play_button = UIFlatButton(
             width=50,
             height=25,
             text="Play",
             x=200,
             y=550,
-            interaction_buttons=(arcade.MOUSE_BUTTON_LEFT),
+            interaction_buttons=(arcade.MOUSE_BUTTON_LEFT,),
         )
+        self.ui_manager.add(self.play_button)
+
+        self.play_button.on_click = self.message
+        # self.ui_manager.add(self.message)
 
         self.messagebox = UIMessageBox(
             width=70,
@@ -27,28 +41,13 @@ class Mywindow(arcade.Window):
             buttons=("Yeah, Boomers Hit me, Rahhhhh!!!.",),
         )
 
-        self.ui_manager.add(self.play_button)
+    def message(self, event):
         self.ui_manager.add(self.messagebox)
-        self.play_button.on_click = self.messagebox
 
     def on_draw(self):
         self.clear()
-        # arcade.draw_line(0, self.height, self.width, 0, arcade.color.AQUA, 3)
-        # arcade.draw_point(550, 600, arcade.color.WHITE, 25)
         self.ui_manager.draw()
-        arcade.draw_text(
-            text="BlackJack: The Game that made Satan Cry!!!",
-            x=50,
-            y=800,
-            font_size=40,
-            color=arcade.color.ORANGE,
-            align="center",
-        )
-
-    # def on_update(self):
 
 
 window = Mywindow(1200, 1050, "BlackJack")
-# text = MenuDialogBox()
-
 arcade.run()
