@@ -3,6 +3,7 @@ from arcade.gui import UIFlatButton, UILabel, UIManager, UIMessageBox
 
 
 class Mywindow(arcade.Window):
+    # THIS IS THE FUNCTION OF THE WINDOW
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
         self.set_location(200, 200)
@@ -20,19 +21,6 @@ class Mywindow(arcade.Window):
 
         self.ui_manager.add(self.label)
 
-        self.play_button = UIFlatButton(
-            width=50,
-            height=25,
-            text="Play",
-            x=200,
-            y=550,
-            interaction_buttons=(arcade.MOUSE_BUTTON_LEFT,),
-        )
-        self.ui_manager.add(self.play_button)
-
-        self.play_button.on_click = self.message
-        # self.ui_manager.add(self.message)
-
         self.messagebox = UIMessageBox(
             width=70,
             height=120,
@@ -40,6 +28,18 @@ class Mywindow(arcade.Window):
             title="Up DIFICULTY",
             buttons=("Yeah, Boomers Hit me, Rahhhhh!!!.",),
         )
+
+    def make_button(self, x, y, text, callback):
+        button = UIFlatButton(
+            width=50,
+            height=25,
+            text="Quit Game",
+            x=500,
+            y=250,
+            interaction_buttons=(arcade.MOUSE_BUTTON_LEFT,),
+        )
+        button.on_click = callback
+        return button
 
     def message(self, event):
         self.ui_manager.add(self.messagebox)
