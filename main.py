@@ -1,5 +1,5 @@
 import arcade
-from arcade.gui import UIFlatButton, UIManager
+from arcade.gui import UIFlatButton, UIManager, UIMessageBox
 
 
 class Mywindow(arcade.Window):
@@ -9,6 +9,7 @@ class Mywindow(arcade.Window):
         arcade.set_background_color(arcade.color.TEA_ROSE)
         self.ui_manager = UIManager()
         self.ui_manager.enable()
+
         self.play_button = UIFlatButton(
             width=50,
             height=25,
@@ -17,19 +18,18 @@ class Mywindow(arcade.Window):
             y=550,
             interaction_buttons=(arcade.MOUSE_BUTTON_LEFT),
         )
-        self.play_button.on_click = print("Soon Man this shi is still in development.")
 
-        """self.messagebox = UIMessageBox(
+        self.messagebox = UIMessageBox(
             width=70,
             height=120,
             message_text="Are you sure you wanna increase the DIFICULTY Little Boy????",
             title="Up DIFICULTY",
             buttons=("Yeah, Boomers Hit me, Rahhhhh!!!.",),
-        )"""
+        )
 
-        # self.ui_manager.add(self.messagebox)
-        # self.ui_manager.add(self.game_title)
         self.ui_manager.add(self.play_button)
+        self.ui_manager.add(self.messagebox)
+        self.play_button.on_click = self.messagebox
 
     def on_draw(self):
         self.clear()
