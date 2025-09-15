@@ -11,6 +11,7 @@ class Mywindow(arcade.Window):
         self.ui_manager = UIManager()
         self.ui_manager.enable()
 
+        # THIS IS GAME TITLE################################################################
         self.label = UILabel(
             x=50,
             y=800,
@@ -18,9 +19,21 @@ class Mywindow(arcade.Window):
             font_size=40,
             text_color=arcade.color.ORANGE,
         )
-
         self.ui_manager.add(self.label)
 
+        ############# THIS IS THE PLAY BUTTON################################################################3
+        self.play_button = self.make_button(
+            x=500, y=250, text="Play Game", callback=self.message
+        )
+        self.ui_manager.add(self.play_button)
+
+        ################# THIS IS THE QUIT BUTTON##############################################################3
+        self.quit_button = self.make_button(
+            x=600, y=400, text="Quit Game", callback=self.quit
+        )
+        self.ui_manager.add(self.quit_button)
+
+        ############################ THIS IS THE MESSAGE BOX############################################################
         self.messagebox = UIMessageBox(
             width=70,
             height=120,
@@ -29,25 +42,32 @@ class Mywindow(arcade.Window):
             buttons=("Yeah, Boomers Hit me, Rahhhhh!!!.",),
         )
 
+    ######################################FUNCTION TO MAKE BUTTONS#############################################################
     def make_button(self, x, y, text, callback):
         button = UIFlatButton(
             width=50,
             height=25,
-            text="Quit Game",
-            x=500,
-            y=250,
+            text=text,
+            x=x,
+            y=y,
             interaction_buttons=(arcade.MOUSE_BUTTON_LEFT,),
         )
         button.on_click = callback
         return button
 
+    #############THIS IS THE MESSAGE FUNCTION######################################
     def message(self, event):
         self.ui_manager.add(self.messagebox)
+
+    #######THIS IS THE QUIT FUNCTION###############################################################
+    def quit(self, event):
+        arcade.exit()
 
     def on_draw(self):
         self.clear()
         self.ui_manager.draw()
 
 
+##########################LOADING THE GAME###############################################3
 window = Mywindow(1200, 1050, "BlackJack")
 arcade.run()
