@@ -23,30 +23,48 @@ class Mywindow(arcade.Window):
 
         ############# THIS IS THE PLAY BUTTON################################################################3
         self.play_button = self.make_button(
-            x=500, y=250, text="Play Game", callback=self.message
+            width=100, height=35, x=500, y=500, text="Play Game", callback=self.message
         )
         self.ui_manager.add(self.play_button)
 
         ################# THIS IS THE QUIT BUTTON##############################################################3
         self.quit_button = self.make_button(
-            x=600, y=400, text="Quit Game", callback=self.quit
+            width=100, height=35, x=500, y=200, text="Quit Game", callback=self.quit
         )
         self.ui_manager.add(self.quit_button)
 
+        ################# THIS IS THE Rules(RULES BUTTON##############################################################3
+        self.rules_button = self.make_button(
+            width=100, height=35, x=500, y=400, text="Rules", callback=self.quit
+        )
+        self.ui_manager.add(self.rules_button)
+
+        ################# THIS IS THE CONTACT US BUTTON##############################################################3
+        self.contact_button = self.make_button(
+            width=100, height=35, x=500, y=300, text="Contact Us", callback=self.quit
+        )
+        self.ui_manager.add(self.contact_button)
+
         ############################ THIS IS THE MESSAGE BOX############################################################
         self.messagebox = UIMessageBox(
-            width=70,
+            width=240,
             height=120,
-            message_text="Are you sure you wanna increase the DIFICULTY Little Boy????",
-            title="Up DIFICULTY",
-            buttons=("Yeah, Boomers Hit me, Rahhhhh!!!.",),
+            # x=700,
+            # y=380,
+            message_text="",
+            title="Select DifficultyY",
+            buttons=(
+                "Beginner:, I am but a child",
+                "Experienced: I knwo my shi",
+                "Expert: The cards speak to me",
+            ),
         )
 
     ######################################FUNCTION TO MAKE BUTTONS#############################################################
-    def make_button(self, x, y, text, callback):
+    def make_button(self, width, height, x, y, text, callback):
         button = UIFlatButton(
-            width=50,
-            height=25,
+            width=width,
+            height=height,
             text=text,
             x=x,
             y=y,
