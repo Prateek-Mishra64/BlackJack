@@ -35,7 +35,7 @@ class Mywindow(arcade.Window):
 
         ################# THIS IS THE Rules(RULES BUTTON##############################################################3
         self.rules_button = self.make_button(
-            width=100, height=35, x=500, y=400, text="Rules", callback=self.quit
+            width=100, height=35, x=500, y=400, text="Rules", callback=self.show_rules
         )
         self.ui_manager.add(self.rules_button)
 
@@ -86,6 +86,28 @@ class Mywindow(arcade.Window):
         self.ui_manager.draw()
 
 
+class windower(arcade.View):
+    def __init__(self):
+        super().__init__()
+        self.ui_manager = UIManager
+        self.ui_manager.enable()
+
+    self.rules = UILabel(
+        x=200,
+        y=700,
+        text="The Rules are very simple, initially you and the dealer both will be served with 2 cards each, The dealer will have one of his cards revealed. BLAH, BLAH, BLAH",
+        font_size=20,
+        text_color=arcade.color.TEAL,
+    )
+
+    self.ui_manager.add(self.rules)
+
+    def on_draw(self):
+        self.clear()
+        arcade.draw_text("Game Screen", 300, 400, arcade.color.GREEN, 30)
+
+
 ##########################LOADING THE GAME###############################################3
-window = Mywindow(1200, 1050, "BlackJack")
+menu_window = Mywindow(1920, 1050, "BlackJack")
+rules_window = windower()
 arcade.run()
