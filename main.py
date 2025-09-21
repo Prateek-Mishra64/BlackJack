@@ -2,16 +2,14 @@ import arcade
 from arcade.gui import UIFlatButton, UILabel, UIManager, UIMessageBox
 
 
-class Mywindow(arcade.Window):
-    # THIS IS THE FUNCTION OF THE WINDOW
-    def __init__(self, width, height, title):
-        super().__init__(width, height, title)
-        self.set_location(200, 200)
-        arcade.set_background_color(arcade.color.TEA_ROSE)
+class MainMenu(arcade.View):
+    def __init__(self):
+        super().__init__()
         self.ui_manager = UIManager()
         self.ui_manager.enable()
+        arcade.set_background_color(arcade.color.TEA_ROSE)
 
-        # THIS IS GAME TITLE################################################################
+        # Title
         self.label = UILabel(
             x=50,
             y=800,
@@ -21,93 +19,128 @@ class Mywindow(arcade.Window):
         )
         self.ui_manager.add(self.label)
 
-        ############# THIS IS THE PLAY BUTTON################################################################3
+        # Buttons
         self.play_button = self.make_button(
-            width=100, height=35, x=500, y=500, text="Play Game", callback=self.message
+            500, 500, 100, 35, "Play Game", self.show_message
         )
         self.ui_manager.add(self.play_button)
 
-        ################# THIS IS THE QUIT BUTTON##############################################################3
-        self.quit_button = self.make_button(
-            width=100, height=35, x=500, y=200, text="Quit Game", callback=self.quit
-        )
-        self.ui_manager.add(self.quit_button)
-
-        ################# THIS IS THE Rules(RULES BUTTON##############################################################3
         self.rules_button = self.make_button(
-            width=100, height=35, x=500, y=400, text="Rules", callback=self.show_rules
+            500, 400, 100, 35, "Rules", self.show_rules
         )
         self.ui_manager.add(self.rules_button)
 
-        ################# THIS IS THE CONTACT US BUTTON##############################################################3
         self.contact_button = self.make_button(
-            width=100, height=35, x=500, y=300, text="Contact Us", callback=self.quit
+            500, 300, 100, 35, "Contact Us", self.show_contacts
         )
         self.ui_manager.add(self.contact_button)
 
-        ############################ THIS IS THE MESSAGE BOX############################################################
+        self.quit_button = self.make_button(
+            500, 200, 100, 35, "Quit Game", lambda e: arcade.exit()
+        )
+        self.ui_manager.add(self.quit_button)
+
+        # Message box
         self.messagebox = UIMessageBox(
             width=240,
             height=120,
-            # x=700,
-            # y=380,
             message_text="",
-            title="Select DifficultyY",
-            buttons=(
-                "Beginner:, I am but a child",
-                "Experienced: I knwo my shi",
-                "Expert: The cards speak to me",
-            ),
+            title="Select Difficulty",
+            buttons=("Beginner", "Experienced", "Expert"),
         )
 
-    ######################################FUNCTION TO MAKE BUTTONS#############################################################
-    def make_button(self, width, height, x, y, text, callback):
+    def make_button(self, x, y, width, height, text, callback):
         button = UIFlatButton(
             width=width,
             height=height,
-            text=text,
             x=x,
             y=y,
+            text=text,
             interaction_buttons=(arcade.MOUSE_BUTTON_LEFT,),
         )
         button.on_click = callback
         return button
 
-    #############THIS IS THE MESSAGE FUNCTION######################################
-    def message(self, event):
+    def show_message(self, event):
         self.ui_manager.add(self.messagebox)
 
-    #######THIS IS THE QUIT FUNCTION###############################################################
-    def quit(self, event):
-        arcade.exit()
+    def show_rules(self, event):
+        self.window.show_view(RulesView())  # switch to rules view
+
+    def on_draw(self):
+        self.clear()
+        self.ui_manager.draw()
+
+    def show_contacts(self, event):
+        self.window.show_view(ContactUs())
+
+
+class RulesView(arcade.View):
+    def __init__(self):
+        super().__init__()
+        self.ui_manager = UIManager()
+        self.ui_manager.enable()
+
+        self.rules_label = UILabel(
+            x=50,
+            y=700,
+            text="The Rules are simple: You and the dealer each get 2 cards. Dealer shows one card. Try to beat dealer without going over 21.",
+            font_size=20,
+            text_color=arcade.color.TEAL,
+            width=1800,
+            multiline=True,
+        )
+        self.ui_manager.add(self.rules_label)
+
+        # Back button
+        back_button = UIFlatButton(
+            x=500, y=100, width=150, height=40, text="Back to Menu"
+        )
+        back_button.on_click = self.back_to_menu
+        self.ui_manager.add(back_button)
+
+    def back_to_menu(self, event):
+        self.window.show_view(MainMenu())
 
     def on_draw(self):
         self.clear()
         self.ui_manager.draw()
 
 
-class windower(arcade.View):
+class ContactUs(arcade.View):
     def __init__(self):
         super().__init__()
-        self.ui_manager = UIManager
+        self.ui_manager = UIManager()
         self.ui_manager.enable()
 
-    self.rules = UILabel(
-        x=200,
-        y=700,
-        text="The Rules are very simple, initially you and the dealer both will be served with 2 cards each, The dealer will have one of his cards revealed. BLAH, BLAH, BLAH",
-        font_size=20,
-        text_color=arcade.color.TEAL,
-    )
+        self.contact_us = UILabel(
+            x=500,
+            y=700,
+            text="Prateek and Himesh",
+            font_size=40,
+            text_color=arcade.color.ALIZARIN_CRIMSON,
+            multiline=True,
+            bold=True,
+        )
 
-    self.ui_manager.add(self.rules)
+        self.ui_manager.add(self.contact_us)
+
+        back_button = UIFlatButton(
+            x=500, y=100, width=150, height=40, text="Back to Menu"
+        )
+        back_button.on_click = self.menu_contact
+        self.ui_manager.add(back_button)
+
+    def menu_contact(self, event):
+        self.window.show_view(MainMenu())
 
     def on_draw(self):
         self.clear()
-        arcade.draw_text("Game Screen", 300, 400, arcade.color.GREEN, 30)
+        self.ui_manager.draw()
 
 
-##########################LOADING THE GAME###############################################3
-menu_window = Mywindow(1920, 1050, "BlackJack")
-rules_window = windower()
+window = arcade.Window(1920, 1050, "BlackJack")
+menu_view = MainMenu()
+window.show_view(menu_view)
 arcade.run()
+
