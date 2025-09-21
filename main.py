@@ -9,7 +9,6 @@ class MainMenu(arcade.View):
         self.ui_manager.enable()
         arcade.set_background_color(arcade.color.TEA_ROSE)
 
-        # Title
         self.label = UILabel(
             x=50,
             y=800,
@@ -19,7 +18,6 @@ class MainMenu(arcade.View):
         )
         self.ui_manager.add(self.label)
 
-        # Buttons
         self.play_button = self.make_button(
             500, 500, 100, 35, "Play Game", self.show_message
         )
@@ -40,7 +38,6 @@ class MainMenu(arcade.View):
         )
         self.ui_manager.add(self.quit_button)
 
-        # Message box
         self.messagebox = UIMessageBox(
             width=240,
             height=120,
@@ -92,7 +89,6 @@ class RulesView(arcade.View):
         )
         self.ui_manager.add(self.rules_label)
 
-        # Back button
         back_button = UIFlatButton(
             x=500, y=100, width=150, height=40, text="Back to Menu"
         )
