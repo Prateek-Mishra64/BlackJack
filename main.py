@@ -71,6 +71,27 @@ class MainMenu(arcade.View):
     def show_contacts(self, event):
         self.window.show_view(ContactUs())
 
+    def on_ui_event(self, event):
+        if event.source == self.messagebox:
+            if event.button.text == "Beginner":
+                self.ui_manager.remove(self.messagebox)
+                self.show_beginner(self)
+            elif event.button.text == "Experienced":
+                self.ui_manager.remove(self.messagebox)
+                self.show_experienced(self)
+            elif event.button.text == "Expert":
+                self.ui_manager.remove(self.messagebox)
+                self.show_expert(self)
+
+    def show_beginner(self, event):
+        self.window.show_view(EasyMode())
+
+    def show_experienced(self, event):
+        self.window.show_view(ModerateMode())
+
+    def show_expert(self, event):
+        self.window.show_view(HardMode())
+
 
 class RulesView(arcade.View):
     def __init__(self):
@@ -135,8 +156,40 @@ class ContactUs(arcade.View):
         self.ui_manager.draw()
 
 
+class EasyMode(arcade.View):
+    def __init__(self):
+        super().__init__()
+        self.ui_manager = UIManager()
+        self.ui_manager.enable()
+
+    def on_draw(self):
+        self.clear()
+        self.ui_manager.draw()
+
+
+class ModerateMode(arcade.View):
+    def __init__(self):
+        super().__init__()
+        self.ui_manager = UIManager()
+        self.ui_manager.enable()
+
+    def on_draw(self):
+        self.clear()
+        self.ui_manager.draw()
+
+
+class HardMode(arcade.View):
+    def __init__(self):
+        super().__init__()
+        self.ui_manager = UIManager()
+        self.ui_manager.enable()
+
+    def on_draw(self):
+        self.clear()
+        self.ui_manager.draw()
+
+
 window = arcade.Window(1920, 1050, "BlackJack")
 menu_view = MainMenu()
 window.show_view(menu_view)
 arcade.run()
-
