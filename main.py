@@ -5,6 +5,7 @@ from arcade.gui import (
     UIManager,
     UIMessageBox,
     UIOnActionEvent,
+    UITextureButton,
 )
 
 
@@ -13,7 +14,17 @@ class MainMenu(arcade.View):
         super().__init__()
         self.ui_manager = UIManager()
         self.ui_manager.enable()
-        self.background_color = arcade.color.AFRICAN_VIOLET
+        self.background_texture = arcade.Sprite(
+            "/home/Prateek/Documents/Shi_I_Make/Projects/college_Project/Assets/Sprites/casino_table.png"
+        )
+        self.background_list = arcade.SpriteList()
+        scale_x = self.window.width / self.background_texture.width
+        scale_y = self.window.height / self.background_texture.height
+        self.background_texture.scale = max(scale_x, scale_y)
+        self.background_texture.center_x = self.window.width // 2
+        self.background_texture.center_y = self.window.height // 2
+
+        self.background_list.append(self.background_texture)
 
         self.label = UILabel(
             x=50,
@@ -25,22 +36,74 @@ class MainMenu(arcade.View):
         self.ui_manager.add(self.label)
 
         self.play_button = self.make_button(
-            500, 500, 100, 35, "Play Game", self.show_message
+            500,
+            500,
+            100,
+            35,
+            self.show_message,
+            arcade.load_texture(
+                "/home/Prateek/Documents/Shi_I_Make/Projects/college_Project/Assets/Sprites/play.png"
+            ),
+            arcade.load_texture(
+                "/home/Prateek/Documents/Shi_I_Make/Projects/college_Project/Assets/Sprites/play_hovered.png"
+            ),
+            arcade.load_texture(
+                "/home/Prateek/Documents/Shi_I_Make/Projects/college_Project/Assets/Sprites/play_clicked.png"
+            ),
         )
         self.ui_manager.add(self.play_button)
 
         self.rules_button = self.make_button(
-            500, 400, 100, 35, "Rules", self.show_rules
+            500,
+            400,
+            100,
+            35,
+            self.show_rules,
+            arcade.load_texture(
+                "/home/Prateek/Documents/Shi_I_Make/Projects/college_Project/Assets/Sprites/rules_idle.png"
+            ),
+            arcade.load_texture(
+                "/home/Prateek/Documents/Shi_I_Make/Projects/college_Project/Assets/Sprites/rules_hover.png"
+            ),
+            arcade.load_texture(
+                "/home/Prateek/Documents/Shi_I_Make/Projects/college_Project/Assets/Sprites/rules_clicked.png"
+            ),
         )
         self.ui_manager.add(self.rules_button)
 
         self.contact_button = self.make_button(
-            500, 300, 100, 35, "Contact Us", self.show_contacts
+            500,
+            300,
+            100,
+            35,
+            self.show_contacts,
+            arcade.load_texture(
+                "/home/Prateek/Documents/Shi_I_Make/Projects/college_Project/Assets/Sprites/contact_idle.png"
+            ),
+            arcade.load_texture(
+                "/home/Prateek/Documents/Shi_I_Make/Projects/college_Project/Assets/Sprites/contact_hover.png"
+            ),
+            arcade.load_texture(
+                "/home/Prateek/Documents/Shi_I_Make/Projects/college_Project/Assets/Sprites/contact_clicked.png"
+            ),
         )
         self.ui_manager.add(self.contact_button)
 
         self.quit_button = self.make_button(
-            500, 200, 100, 35, "Quit Game", lambda e: arcade.exit()
+            500,
+            200,
+            100,
+            35,
+            lambda e: arcade.exit(),
+            arcade.load_texture(
+                "/home/Prateek/Documents/Shi_I_Make/Projects/college_Project/Assets/Sprites/quit_idle.png"
+            ),
+            arcade.load_texture(
+                "/home/Prateek/Documents/Shi_I_Make/Projects/college_Project/Assets/Sprites/quit_hover.png"
+            ),
+            arcade.load_texture(
+                "/home/Prateek/Documents/Shi_I_Make/Projects/college_Project/Assets/Sprites/quit_clicked.png"
+            ),
         )
         self.ui_manager.add(self.quit_button)
 
@@ -64,13 +127,25 @@ class MainMenu(arcade.View):
             elif event.action == "Expert":
                 self.window.show_view(HardMode())
 
-    def make_button(self, x, y, width, height, text, callback):
-        button = UIFlatButton(
+    def make_button(
+        self,
+        x,
+        y,
+        width,
+        height,
+        callback,
+        texture,
+        texture_hovered,
+        texture_pressed,
+    ):
+        button = UITextureButton(
             width=width,
             height=height,
             x=x,
             y=y,
-            text=text,
+            texture=texture,
+            texture_hovered=texture_hovered,
+            texture_pressed=texture_pressed,
             interaction_buttons=(arcade.MOUSE_BUTTON_LEFT,),
         )
         button.on_click = callback
@@ -80,12 +155,7 @@ class MainMenu(arcade.View):
         self.ui_manager.add(self.messagebox)
 
     def show_rules(self, event):
-        self.window.show_view(RulesView())  # switch to rules view
-
-    def on_draw(self):
-        self.clear()
-        # self.background.draw()
-        self.ui_manager.draw()
+        self.window.show_view(RulesView())
 
     def show_contacts(self, event):
         self.window.show_view(ContactUs())
@@ -110,6 +180,11 @@ class MainMenu(arcade.View):
 
     def show_expert(self, event):
         self.window.show_view(HardMode())
+
+    def on_draw(self):
+        self.clear()
+        self.background_list.draw()
+        self.ui_manager.draw()
 
 
 class RulesView(arcade.View):
@@ -184,12 +259,17 @@ class EasyMode(arcade.View):
         arcade.set_background_color(arcade.color.ALIZARIN_CRIMSON)
         self.ui_manager = UIManager()
         self.ui_manager.enable()
+        self.background = arcade.Sprite(
+            "/home/Prateek/Documents/Shi_I_Make/Projects/college_Project/Assets/Sprites/table.png"
+        )
+        self.easy_sprites = arcade.SpriteList()
+        scale_x = self.window.width / self.background.width
+        scale_y = self.window.height / self.background.height
+        self.background.scale = max(scale_x, scale_y)
+        self.background.center_x = self.window.width // 2
+        self.background.center_y = self.window.height // 2
 
-        # hands_animation = arcade.load_spritesheet("Assets/Sprites/spritesheet.png")
-        # texture_list = hands_animation.get_texture_grid(
-
-        #    size=(512, 256), colums=4, count=24
-        # )
+        self.easy_sprites.append(self.background)
 
         back_button = UIFlatButton(
             x=500, y=100, width=150, height=40, text="Back to Menu"
@@ -197,11 +277,39 @@ class EasyMode(arcade.View):
         back_button.on_click = self.menu_easy
         self.ui_manager.add(back_button)
 
+        self.messagebox = UIMessageBox(
+            width=240,
+            height=120,
+            message_text="",
+            title="Select Difficulty",
+            buttons=("Beginner", "Experienced", "Expert"),
+        )
+
+        @self.messagebox.event("on_action")
+        def on_action(event: UIOnActionEvent):
+            # Remove the box from the UI
+            self.ui_manager.remove(self.messagebox)
+
+            if event.action == "Beginner":
+                self.window.show_view(EasyMode())
+            elif event.action == "Experienced":
+                self.window.show_view(ModerateMode())
+            elif event.action == "Expert":
+                self.window.show_view(HardMode())
+
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.ESCAPE:
+            self.show_messagebox(None)
+
+    def show_messagebox(self, event):
+        self.ui_manager.add(self.messagebox)
+
     def menu_easy(self, event):
         self.window.show_view(MainMenu())
 
     def on_draw(self):
         self.clear()
+        self.easy_sprites.draw()
         self.ui_manager.draw()
 
 
