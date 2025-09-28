@@ -1,0 +1,23 @@
+import arcade
+
+
+class MainMenu(arcade.View):
+    def __init__(self):
+        super().__init__()
+        self.background = arcade.Sprite("Assets/Sprites/casino_table.png")
+        # Optional: scale background to window size
+        self.background.center_x = self.window.width // 2
+        self.background.center_y = self.window.height // 2
+        self.background.width = self.window.width
+        self.background.height = self.window.height
+
+    def on_draw(self):
+        self.clear()
+        self.background.draw()  # ✅ works
+        
+
+window = arcade.Window(800, 600, "Test Background")
+menu = MainMenu()
+window.show_view(menu)
+arcade.run()
+

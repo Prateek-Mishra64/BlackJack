@@ -1,5 +1,11 @@
 import arcade
-from arcade.gui import UIFlatButton, UILabel, UIManager, UIMessageBox
+from arcade.gui import (
+    UIFlatButton,
+    UILabel,
+    UIManager,
+    UIMessageBox,
+    UIOnActionEvent,
+)
 
 
 class MainMenu(arcade.View):
@@ -7,7 +13,7 @@ class MainMenu(arcade.View):
         super().__init__()
         self.ui_manager = UIManager()
         self.ui_manager.enable()
-        arcade.set_background_color(arcade.color.TEA_ROSE)
+        self.background_color = arcade.color.AFRICAN_VIOLET
 
         self.label = UILabel(
             x=50,
@@ -46,6 +52,18 @@ class MainMenu(arcade.View):
             buttons=("Beginner", "Experienced", "Expert"),
         )
 
+        @self.messagebox.event("on_action")
+        def on_action(event: UIOnActionEvent):
+            # Remove the box from the UI
+            self.ui_manager.remove(self.messagebox)
+
+            if event.action == "Beginner":
+                self.window.show_view(EasyMode())
+            elif event.action == "Experienced":
+                self.window.show_view(ModerateMode())
+            elif event.action == "Expert":
+                self.window.show_view(HardMode())
+
     def make_button(self, x, y, width, height, text, callback):
         button = UIFlatButton(
             width=width,
@@ -66,6 +84,7 @@ class MainMenu(arcade.View):
 
     def on_draw(self):
         self.clear()
+        # self.background.draw()
         self.ui_manager.draw()
 
     def show_contacts(self, event):
@@ -156,15 +175,37 @@ class ContactUs(arcade.View):
         self.ui_manager.draw()
 
 
+#################EASY MODE##################################################
+
+
 class EasyMode(arcade.View):
     def __init__(self):
         super().__init__()
+        arcade.set_background_color(arcade.color.ALIZARIN_CRIMSON)
         self.ui_manager = UIManager()
         self.ui_manager.enable()
+
+        # hands_animation = arcade.load_spritesheet("Assets/Sprites/spritesheet.png")
+        # texture_list = hands_animation.get_texture_grid(
+
+        #    size=(512, 256), colums=4, count=24
+        # )
+
+        back_button = UIFlatButton(
+            x=500, y=100, width=150, height=40, text="Back to Menu"
+        )
+        back_button.on_click = self.menu_easy
+        self.ui_manager.add(back_button)
+
+    def menu_easy(self, event):
+        self.window.show_view(MainMenu())
 
     def on_draw(self):
         self.clear()
         self.ui_manager.draw()
+
+
+#################MODERATE MODE##################################################
 
 
 class ModerateMode(arcade.View):
@@ -173,9 +214,21 @@ class ModerateMode(arcade.View):
         self.ui_manager = UIManager()
         self.ui_manager.enable()
 
+        back_button = UIFlatButton(
+            x=500, y=100, width=150, height=40, text="Back to Menu"
+        )
+        back_button.on_click = self.menu_moderate
+        self.ui_manager.add(back_button)
+
+    def menu_moderate(self, event):
+        self.window.show_view(MainMenu())
+
     def on_draw(self):
         self.clear()
         self.ui_manager.draw()
+
+
+#################HARD MODE##################################################
 
 
 class HardMode(arcade.View):
@@ -184,12 +237,21 @@ class HardMode(arcade.View):
         self.ui_manager = UIManager()
         self.ui_manager.enable()
 
+        back_button = UIFlatButton(
+            x=500, y=100, width=150, height=40, text="Back to Menu"
+        )
+        back_button.on_click = self.menu_hard
+        self.ui_manager.add(back_button)
+
+    def menu_hard(self, event):
+        self.window.show_view(MainMenu())
+
     def on_draw(self):
         self.clear()
         self.ui_manager.draw()
 
 
-window = arcade.Window(1920, 1050, "BlackJack")
+window = arcade.Window(1920, 1200, "BlackJack", center_window=True, enable_polling=True)
 menu_view = MainMenu()
 window.show_view(menu_view)
 arcade.run()
