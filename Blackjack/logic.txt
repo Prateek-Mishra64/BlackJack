@@ -1,0 +1,21 @@
+Use nested arrays to denote the deck of cards
+array = [[Diamond][Hearts][Clubs][Spade]]
+Generate 2 random number, first to pick the house of cards and second to pick the number.
+random = array[i][j]
+We draw the sprite of the selected card and draw it either to the dealere or the player.
+
+First two cards are dealed to the dealer and one of the cards is randomly selected and flipped.
+
+Next two cards are dealed to the player and both are fliped according to user selection.
+
+If the sum of the dealer cards is 16 or less, the dealer will always hit otherwise the dealer will stay.
+
+The user will be given the choice to hit or stand. 
+
+After the dealer will either hit or stand according his cards.
+
+Now to decide the winner of the round, we will sum the cards of the dealer and player. Whoever gets the bigger sum / closer to 21 will win.
+
+If the sum of the player or the dealer goes above 21 the other person instantly wins.
+
+Display U WINNN!! 

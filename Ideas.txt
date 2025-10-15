@@ -7,3 +7,10 @@ BlackJack Ideas:
     -For background have multiple sprites moving it can be done so :
         --Have cards sprite moving diagonally upwards in left adn right from their original position and then comming back to their
             original position making a sort of brething animation.
+
+
+
+Game Logic:
+ 
+        The dealer on easy level will hit untill he has a hand total of 17 or more, then he will stand everytime.
+            On higher levels dealer might hit stand 

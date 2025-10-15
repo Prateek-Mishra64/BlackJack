@@ -15,7 +15,7 @@ class MainMenu(arcade.View):
         self.ui_manager = UIManager()
         self.ui_manager.enable()
         self.background_texture = arcade.Sprite(
-            "/home/Prateek/Documents/Shi_I_Make/Projects/college_Project/Assets/Sprites/casino_table.png"
+            "/home/Prateek/Documents/Shi_I_Make/Projects/college_Project/Assets/Sprites/main menu.png"
         )
         self.background_list = arcade.SpriteList()
         scale_x = self.window.width / self.background_texture.width
@@ -36,10 +36,10 @@ class MainMenu(arcade.View):
         self.ui_manager.add(self.label)
 
         self.play_button = self.make_button(
-            500,
-            500,
-            100,
-            35,
+            340,
+            470,
+            200,
+            75,
             self.show_message,
             arcade.load_texture(
                 "/home/Prateek/Documents/Shi_I_Make/Projects/college_Project/Assets/Sprites/play.png"
@@ -54,10 +54,10 @@ class MainMenu(arcade.View):
         self.ui_manager.add(self.play_button)
 
         self.rules_button = self.make_button(
-            500,
-            400,
-            100,
-            35,
+            1450,
+            460,
+            200,
+            75,
             self.show_rules,
             arcade.load_texture(
                 "/home/Prateek/Documents/Shi_I_Make/Projects/college_Project/Assets/Sprites/rules_idle.png"
@@ -72,10 +72,10 @@ class MainMenu(arcade.View):
         self.ui_manager.add(self.rules_button)
 
         self.contact_button = self.make_button(
-            500,
-            300,
-            100,
-            35,
+            320,
+            160,
+            180,
+            75,
             self.show_contacts,
             arcade.load_texture(
                 "/home/Prateek/Documents/Shi_I_Make/Projects/college_Project/Assets/Sprites/contact_idle.png"
@@ -90,10 +90,10 @@ class MainMenu(arcade.View):
         self.ui_manager.add(self.contact_button)
 
         self.quit_button = self.make_button(
-            500,
+            1450,
+            130,
             200,
-            100,
-            35,
+            75,
             lambda e: arcade.exit(),
             arcade.load_texture(
                 "/home/Prateek/Documents/Shi_I_Make/Projects/college_Project/Assets/Sprites/quit_idle.png"
