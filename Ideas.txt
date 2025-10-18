@@ -13,4 +13,13 @@ BlackJack Ideas:
 Game Logic:
  
         The dealer on easy level will hit untill he has a hand total of 17 or more, then he will stand everytime.
-            On higher levels dealer might hit stand 
+             On higher levels dealer might hit stand 
+
+
+
+Q table Reinforced Learning:
+        The difficutlty will be set using the Q table Reinforced Learning where to make higher level difficulty we will Use
+            Exploration and will only use exploitation for mid level difficutlty.
+
+
+            The discount rate defines weather the AI will prioritise the future rewards over the immediate rewards or not.
