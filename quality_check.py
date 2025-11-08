@@ -40,11 +40,15 @@ class DealerAI:
 # [----------------------------------------BLACKJACK GAME LOGIC----------------------------------------------------------]
 houses = ["♠", "♥", "♦", "♣"]
 values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
-deck = [(house, value) for house in houses for value in values]
-rnd.shuffle(deck)
 
 
-def deal_card():
+def get_shuffled_deck():
+    deck = [(house, value) for house in houses for value in values]
+    rnd.shuffle(deck)
+    return deck
+
+
+def deal_card(deck):
     return deck.pop()
 
 
@@ -77,24 +81,16 @@ def calculate_score(hand):
     return score
 
 
-def player_turn(player_hand):
-    while True:
-        action = input("Do you want to hit or stand? (h/s): ").strip().lower()
-        if action == "h":
-            player_hand.append(deal_card())
-            score = calculate_score(player_hand)
-            print("Player: ", player_hand)
-            print("Player score: ", score)
-            if score > 21:
-                print("Player busts! Dealer wins.")
-                return False
-        elif action == "s":
-            return True
-        else:
-            print("Invalid input. Please enter 'h' or 's'.")
+def simulated_player_turn(deck, player_hand):
+    # simple simulated strategy: hit until >= 17
+    while calculate_score(player_hand) < 17:
+        player_hand.append(deal_card(deck))
+        if calculate_score(player_hand) > 21:
+            return False  # player busts
+    return True
 
 
-def dealer_turn(dealer_hand, player_hand, ai):
+def dealer_turn(deck, dealer_hand, player_hand, ai):
     while True:
         dealer_score = calculate_score(dealer_hand)
         player_score = calculate_score(player_hand)
@@ -104,7 +100,7 @@ def dealer_turn(dealer_hand, player_hand, ai):
 
         action = ai.choose_action(dealer_hand, player_hand)
         if action == 1:  # hit
-            dealer_hand.append(deal_card())
+            dealer_hand.append(deal_card(deck))
             print(f"Dealer hits → {dealer_hand}")
         else:  # stand
             print(f"Dealer stands  → {dealer_hand}")
@@ -122,22 +118,38 @@ def dealer_turn(dealer_hand, player_hand, ai):
 if __name__ == "__main__":
     ai = DealerAI(difficulty="hard")
 
-    player_hand = [deal_card(), deal_card()]
-    dealer_hand = [deal_card(), deal_card()]
+results = {"player_win": 0, "dealer_win": 0, "tie": 0}
+num_games = 1000
 
-    print("Player:", player_hand)
-    print("Dealer:", dealer_hand[0], "??")
+for _ in range(num_games):
+    deck = get_shuffled_deck()
 
-    player_result = player_turn(player_hand)
-    if player_result:
-        print("Dealer's Hand:", dealer_hand)
-        dealer_result = dealer_turn(dealer_hand, player_hand, ai)
-        if dealer_result:
-            player_score = calculate_score(player_hand)
-            dealer_score = calculate_score(dealer_hand)
-            if player_score > dealer_score:
-                print("Player wins!")
-            elif player_score < dealer_score:
-                print("Dealer wins!")
-            else:
-                print("It's a tie!")
+    player_hand = [deal_card(deck), deal_card(deck)]
+    dealer_hand = [deal_card(deck), deal_card(deck)]
+
+    player_alive = simulated_player_turn(deck, player_hand)
+    if not player_alive:
+        results["dealer_win"] += 1
+        continue
+
+    dealer_alive = dealer_turn(deck, dealer_hand, player_hand, ai)
+
+    player_score = calculate_score(player_hand)
+    dealer_score = calculate_score(dealer_hand)
+
+    if not dealer_alive:
+        results["player_win"] += 1
+    elif player_score > dealer_score:
+        results["player_win"] += 1
+    elif player_score < dealer_score:
+        results["dealer_win"] += 1
+    else:
+        results["tie"] += 1
+
+print("\n--- Simulation Results ---")
+print(f"Games Played: {num_games}")
+print(f"Player Wins : {results['player_win']}")
+print(f"Dealer Wins : {results['dealer_win']}")
+print(f"Ties        : {results['tie']}")
+win_rate = results["dealer_win"] / num_games * 100
+print(f"Dealer Win Rate: {win_rate:.2f}%")
