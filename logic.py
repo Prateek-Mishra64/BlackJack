@@ -13,7 +13,7 @@ class DealerAI:
                     self.Q = pickle.load(f)
             except FileNotFoundError:
                 print("⚠️ Q-table not found! Run train_dealer_ai.py first.")
-        # Epsilon for randomization
+
         self.epsilon = {"easy": 0.8, "medium": 0.3, "hard": 0.05}[difficulty]
 
     def get_state(self, dealer_score, player_score):
@@ -29,22 +29,41 @@ class DealerAI:
         player_score = calculate_score(player_hand)
         state = self.get_state(dealer_score, player_score)
 
-        # Difficulty-based randomness
         if rnd.random() < self.epsilon:
-            return rnd.choice([0, 1])  # 0 = stand, 1 = hit
-
+            return rnd.choice([0, 1])
         q_values = self.get_q(state)
-        return q_values.index(max(q_values))  # returns 0 or 1
+        return q_values.index(max(q_values))
 
 
 # [----------------------------------------BLACKJACK GAME LOGIC----------------------------------------------------------]
-houses = ["♠", "♥", "♦", "♣"]
+houses = ["♣", "♦", "♥", "♠"]
 values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
 deck = [(house, value) for house in houses for value in values]
 rnd.shuffle(deck)
 
+house_map = {"♣": 1, "♦": 2, "♥": 3, "♠": 4}
+value_map = {
+    "A": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5,
+    "6": 6,
+    "7": 7,
+    "8": 8,
+    "9": 9,
+    "10": 10,
+    "J": 11,
+    "Q": 12,
+    "K": 13,
+}
+
 
 def deal_card():
+    house, value = deck.pop()
+    house_num = house_map[house]
+    value_num = value_map[value]
+
     return deck.pop()
 
 
@@ -103,10 +122,10 @@ def dealer_turn(dealer_hand, player_hand, ai):
             break
 
         action = ai.choose_action(dealer_hand, player_hand)
-        if action == 1:  # hit
+        if action == 1:
             dealer_hand.append(deal_card())
             print(f"Dealer hits → {dealer_hand}")
-        else:  # stand
+        else:
             print(f"Dealer stands  → {dealer_hand}")
             break
 

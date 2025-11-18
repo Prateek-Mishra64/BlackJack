@@ -287,7 +287,6 @@ class EasyMode(arcade.View):
 
         @self.messagebox.event("on_action")
         def on_action(event: UIOnActionEvent):
-            # Remove the box from the UI
             self.ui_manager.remove(self.messagebox)
 
             if event.action == "Beginner":
@@ -319,20 +318,59 @@ class EasyMode(arcade.View):
 class ModerateMode(arcade.View):
     def __init__(self):
         super().__init__()
+        arcade.set_background_color(arcade.color.ALIZARIN_CRIMSON)
         self.ui_manager = UIManager()
         self.ui_manager.enable()
+        self.background = arcade.Sprite(
+            "/home/Prateek/Documents/Shi_I_Make/Projects/college_Project/Assets/Sprites/table.png"
+        )
+        self.easy_sprites = arcade.SpriteList()
+        scale_x = self.window.width / self.background.width
+        scale_y = self.window.height / self.background.height
+        self.background.scale = max(scale_x, scale_y)
+        self.background.center_x = self.window.width // 2
+        self.background.center_y = self.window.height // 2
+
+        self.easy_sprites.append(self.background)
 
         back_button = UIFlatButton(
             x=500, y=100, width=150, height=40, text="Back to Menu"
         )
-        back_button.on_click = self.menu_moderate
+        back_button.on_click = self.menu_easy
         self.ui_manager.add(back_button)
 
-    def menu_moderate(self, event):
+        self.messagebox = UIMessageBox(
+            width=240,
+            height=120,
+            message_text="",
+            title="Select Difficulty",
+            buttons=("Beginner", "Experienced", "Expert"),
+        )
+
+        @self.messagebox.event("on_action")
+        def on_action(event: UIOnActionEvent):
+            self.ui_manager.remove(self.messagebox)
+
+            if event.action == "Beginner":
+                self.window.show_view(EasyMode())
+            elif event.action == "Experienced":
+                self.window.show_view(ModerateMode())
+            elif event.action == "Expert":
+                self.window.show_view(HardMode())
+
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.ESCAPE:
+            self.show_messagebox(None)
+
+    def show_messagebox(self, event):
+        self.ui_manager.add(self.messagebox)
+
+    def menu_easy(self, event):
         self.window.show_view(MainMenu())
 
     def on_draw(self):
         self.clear()
+        self.easy_sprites.draw()
         self.ui_manager.draw()
 
 
@@ -342,20 +380,79 @@ class ModerateMode(arcade.View):
 class HardMode(arcade.View):
     def __init__(self):
         super().__init__()
+        arcade.set_background_color(arcade.color.ALIZARIN_CRIMSON)
         self.ui_manager = UIManager()
         self.ui_manager.enable()
+        self.background = arcade.Sprite(
+            "/home/Prateek/Documents/Shi_I_Make/Projects/college_Project/Assets/Sprites/table.png"
+        )
+
+        self.dealer_sprites = arcade.SpriteList()
+        self.player_sprites = arcade.SpriteList()
+
+        scale_x = self.window.width / self.background.width
+        scale_y = self.window.height / self.background.height
+        self.background.scale = max(scale_x, scale_y)
+        self.background.center_x = self.window.width // 2
+        self.background.center_y = self.window.height // 2
+
+        self.player_sprites.append(self.background)
 
         back_button = UIFlatButton(
             x=500, y=100, width=150, height=40, text="Back to Menu"
         )
-        back_button.on_click = self.menu_hard
+        back_button.on_click = self.menu_easy
         self.ui_manager.add(back_button)
 
-    def menu_hard(self, event):
+        self.messagebox = UIMessageBox(
+            width=240,
+            height=120,
+            message_text="",
+            title="Select Difficulty",
+            buttons=("Beginner", "Experienced", "Expert"),
+        )
+
+        card_pather = self.card_map(2, 8)
+        card = arcade.Sprite(card_pather, scale=2.5)
+        card.center_x = 500
+        card.center_y = 500
+        self.dealer_sprites.append(card)
+
+        @self.messagebox.event("on_action")
+        def on_action(event: UIOnActionEvent):
+            self.ui_manager.remove(self.messagebox)
+
+            if event.action == "Beginner":
+                self.window.show_view(EasyMode())
+            elif event.action == "Experienced":
+                self.window.show_view(ModerateMode())
+            elif event.action == "Expert":
+                self.window.show_view(HardMode())
+
+        ##############SPRITE ANIMATIONS##########################################
+
+    def card_map(self, suit_number, rank_number):
+        suit_name = {1: "clubs", 2: "diamonds", 3: "hearts", 4: "spades"}
+        suit = suit_name[suit_number]
+
+        rank = str(rank_number)
+
+        return f"Assets/Sprites/Cards/card-{suit}-{rank}.png"
+
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.ESCAPE:
+            self.show_messagebox(None)
+
+    def show_messagebox(self, event):
+        self.ui_manager.add(self.messagebox)
+
+    def menu_easy(self, event):
         self.window.show_view(MainMenu())
 
     def on_draw(self):
         self.clear()
+        self.player_sprites.draw()
+        self.dealer_sprites.draw()
         self.ui_manager.draw()
 
 
