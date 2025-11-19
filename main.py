@@ -8,6 +8,8 @@ from arcade.gui import (
     UITextureButton,
 )
 
+from logic import DealerAI, calculate_score, deal_card
+
 
 class MainMenu(arcade.View):
     def __init__(self):
@@ -380,23 +382,22 @@ class ModerateMode(arcade.View):
 class HardMode(arcade.View):
     def __init__(self):
         super().__init__()
-        arcade.set_background_color(arcade.color.ALIZARIN_CRIMSON)
         self.ui_manager = UIManager()
         self.ui_manager.enable()
-        self.background = arcade.Sprite(
-            "/home/Prateek/Documents/Shi_I_Make/Projects/college_Project/Assets/Sprites/table.png"
-        )
+        self.background = arcade.Sprite("Assets/Sprites/table.png")
 
         self.dealer_sprites = arcade.SpriteList()
         self.player_sprites = arcade.SpriteList()
+        self.Resolt = arcade.SpriteList()
 
+        self.hard_ui = arcade.SpriteList()
         scale_x = self.window.width / self.background.width
         scale_y = self.window.height / self.background.height
         self.background.scale = max(scale_x, scale_y)
         self.background.center_x = self.window.width // 2
         self.background.center_y = self.window.height // 2
 
-        self.player_sprites.append(self.background)
+        self.hard_ui.append(self.background)
 
         back_button = UIFlatButton(
             x=500, y=100, width=150, height=40, text="Back to Menu"
@@ -412,12 +413,6 @@ class HardMode(arcade.View):
             buttons=("Beginner", "Experienced", "Expert"),
         )
 
-        card_pather = self.card_map(2, 8)
-        card = arcade.Sprite(card_pather, scale=2.5)
-        card.center_x = 500
-        card.center_y = 500
-        self.dealer_sprites.append(card)
-
         @self.messagebox.event("on_action")
         def on_action(event: UIOnActionEvent):
             self.ui_manager.remove(self.messagebox)
@@ -429,7 +424,137 @@ class HardMode(arcade.View):
             elif event.action == "Expert":
                 self.window.show_view(HardMode())
 
-        ##############SPRITE ANIMATIONS##########################################
+        self.ai = DealerAI("hard")
+
+        hit_button = UIFlatButton(
+            x=self.window.width // 2 - 120,
+            y=self.window.height // 2,
+            width=120,
+            height=50,
+            text="HIT",
+        )
+        hit_button.on_click = self.hit_action
+        self.ui_manager.add(hit_button)
+
+        stand_button = UIFlatButton(
+            x=self.window.width // 2 + 20,
+            y=self.window.height // 2,
+            width=120,
+            height=50,
+            text="STAND",
+        )
+        stand_button.on_click = self.stand_action
+        self.ui_manager.add(stand_button)
+
+        self.ai = DealerAI("hard")
+        self.player_hand = []
+        self.dealer_hand = []
+
+        self.draw_player_card()
+        self.draw_player_card()
+
+        self.draw_dealer_card()
+        self.draw_dealer_card()
+
+    def arrange_cards(self):
+        spacing = 300
+        start_x = 200
+        y = 300
+        for i, sprite in enumerate(self.player_sprites):
+            sprite.center_x = start_x + spacing * i
+            sprite.center_y = y
+
+        spacing = 300
+        start_x = 200
+        y = 800
+        for i, sprite in enumerate(self.dealer_sprites):
+            sprite.center_x = start_x + spacing * i
+            sprite.center_y = y
+
+    def draw_player_card(self):
+        suit, rank = deal_card()
+        self.player_hand.append((suit, rank))
+        card_path = self.card_map(suit, rank)
+
+        sprite = arcade.Sprite(card_path, scale=3)
+        self.player_sprites.append(sprite)
+        self.arrange_cards()
+
+    def draw_dealer_card(self):
+        suit, rank = deal_card()
+        self.dealer_hand.append((suit, rank))
+
+        if len(self.dealer_hand) == 1:
+            card_path = "Assets/Sprites/card-back.png"
+        else:
+            card_path = self.card_map(suit, rank)
+
+        sprite = arcade.Sprite(card_path, scale=3)
+        self.dealer_sprites.append(sprite)
+
+        self.arrange_cards()
+
+    def hit_action(self, event):
+        score = calculate_score(self.player_hand)
+        dealer_score = calculate_score(self.dealer_hand)
+        if dealer_score >= 21:
+            result = arcade.Sprite("Assets/Sprites/win.jpg", scale=5)
+            result.center_x = self.window.width // 2
+            result.center_y = self.window.height // 2 + 300
+            self.Resolt.append(result)
+        else:
+            if score >= 21:
+                lose = arcade.Sprite("Assets/Sprites/lose.jpg", scale=5)
+                lose.center_x = self.window.width // 2
+                lose.center_y = self.window.height // 2 + 300
+                self.Resolt.append(lose)
+
+            elif score < 21:
+                if score > dealer_score:
+                    result = arcade.Sprite("Assets/Sprites/win.jpg", scale=5)
+                    result.center_x = self.window.width // 2
+                    result.center_y = self.window.height // 2 + 300
+                    self.Resolt.append(result)
+                elif score < dealer_score:
+                    result = arcade.Sprite("Assets/Sprites/lose.jpg", scale=5)
+                    result.texture = arcade.load_texture(result)
+                    result.center_x = self.window.width // 2
+                    result.center_y = self.window.height // 2 + 300
+                    self.Resolt.append(result)
+                else:
+                    result = arcade.Sprite("Assets/Sprites/tie.jpg", scale=5)
+                    result.center_x = self.window.width // 2
+                    result.center_y = self.window.height // 2 + 300
+                    self.Resolt.append(result)
+
+    def stand_action(self, event):
+        while True:
+            dealer_score = calculate_score(self.dealer_hand)
+            player_score = calculate_score(self.player_hand)
+            action = self.ai.choose_action(self.dealer_hand, self.player_hand)
+
+            if action == 1:
+                self.draw_dealer_card()
+                self.draw_player_card()
+            else:
+                break
+
+        player_score = calculate_score(self.player_hand)
+        dealer_score = calculate_score(self.dealer_hand)
+
+        result = arcade.Sprite("Assets/Sprites/Cards/Joker-alt.jpg", scale=5)
+
+        if dealer_score > 21 or player_score > dealer_score:
+            result_path = "Assets/Sprites/win.jpg"
+        elif dealer_score > player_score:
+            result_path = "Assets/Sprites/lose.jpg"
+        else:
+            result_path = "Assets/Sprites/tie.jpg"
+
+        result.texture = arcade.load_texture(result_path)
+        result.center_x = self.window.width // 2
+        result.center_y = self.window.height // 2 + 300
+        self.Resolt.append(result)
 
     def card_map(self, suit_number, rank_number):
         suit_name = {1: "clubs", 2: "diamonds", 3: "hearts", 4: "spades"}
@@ -451,9 +576,11 @@ class HardMode(arcade.View):
 
     def on_draw(self):
         self.clear()
+        self.hard_ui.draw(pixelated=12)
         self.player_sprites.draw()
         self.dealer_sprites.draw()
         self.ui_manager.draw()
+        self.Resolt.draw()
 
 
 window = arcade.Window(1920, 1200, "BlackJack", center_window=True, enable_polling=True)

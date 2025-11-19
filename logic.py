@@ -64,99 +64,25 @@ def deal_card():
     house_num = house_map[house]
     value_num = value_map[value]
 
-    return deck.pop()
+    return house_num, value_num
 
 
 def calculate_score(hand):
-    values = [card[1] for card in hand]
-    score = 0
+    total = 0
     aces = 0
-    value = {
-        "A": 11,
-        "2": 2,
-        "3": 3,
-        "4": 4,
-        "5": 5,
-        "6": 6,
-        "7": 7,
-        "8": 8,
-        "9": 9,
-        "10": 10,
-        "J": 10,
-        "Q": 10,
-        "K": 10,
-    }
-    for v in values:
-        score += value[v]
-        if v == "A":
+
+    for _, value in hand:
+        if value == 1:  # Ace
+            total += 11
             aces += 1
-        while score > 21 and aces > 0:
-            score -= 10
-            aces -= 1
-    return score
+        elif 2 <= value <= 10:  # Number cards
+            total += value
+        else:  # Face cards 11=J, 12=Q, 13=K
+            total += 10
 
+    # Fix Aces if score is too high
+    while total > 21 and aces > 0:
+        total -= 10
+        aces -= 1
 
-def player_turn(player_hand):
-    while True:
-        action = input("Do you want to hit or stand? (h/s): ").strip().lower()
-        if action == "h":
-            player_hand.append(deal_card())
-            score = calculate_score(player_hand)
-            print("Player: ", player_hand)
-            print("Player score: ", score)
-            if score > 21:
-                print("Player busts! Dealer wins.")
-                return False
-        elif action == "s":
-            return True
-        else:
-            print("Invalid input. Please enter 'h' or 's'.")
-
-
-def dealer_turn(dealer_hand, player_hand, ai):
-    while True:
-        dealer_score = calculate_score(dealer_hand)
-        player_score = calculate_score(player_hand)
-
-        if dealer_score >= 21:
-            break
-
-        action = ai.choose_action(dealer_hand, player_hand)
-        if action == 1:
-            dealer_hand.append(deal_card())
-            print(f"Dealer hits → {dealer_hand}")
-        else:
-            print(f"Dealer stands  → {dealer_hand}")
-            break
-
-    dealer_score = calculate_score(dealer_hand)
-    print(f"Dealer's final hand: {dealer_hand} | Score: {dealer_score}")
-    if dealer_score > 21:
-        print("Dealer busts! Player wins.")
-        return False
-    return True
-
-
-# [----------------------------------------RUN GAME----------------------------------------------------------]
-if __name__ == "__main__":
-    ai = DealerAI(difficulty="hard")
-
-    player_hand = [deal_card(), deal_card()]
-    dealer_hand = [deal_card(), deal_card()]
-
-    print("Player:", player_hand)
-    print("Dealer:", dealer_hand[0], "??")
-
-    player_result = player_turn(player_hand)
-    if player_result:
-        print("Dealer's Hand:", dealer_hand)
-        dealer_result = dealer_turn(dealer_hand, player_hand, ai)
-        if dealer_result:
-            player_score = calculate_score(player_hand)
-            dealer_score = calculate_score(dealer_hand)
-            if player_score > dealer_score:
-                print("Player wins!")
-            elif player_score < dealer_score:
-                print("Dealer wins!")
-            else:
-                print("It's a tie!")
+    return total
