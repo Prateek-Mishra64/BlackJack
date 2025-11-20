@@ -59,7 +59,18 @@ value_map = {
 }
 
 
+def reset_deck():
+    global deck
+    deck = [(house, value) for house in houses for value in values]
+    rnd.shuffle(deck)
+
+
 def deal_card():
+    global deck
+    if len(deck) == 0:
+        reset_deck()
+
+    house, value = deck.pop()
     house, value = deck.pop()
     house_num = house_map[house]
     value_num = value_map[value]
